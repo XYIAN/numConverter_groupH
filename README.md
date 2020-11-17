@@ -1,6 +1,6 @@
 # numConverter_groupH
-[Github->Current Project Status](https://github.com/XYIAN/numConverter_groupH/projects/1)
-group H repo for all semester project files 
+[Github->Current Project Status](https://github.com/XYIAN/numConverter_groupH/projects/1)   
+group H repo for all semester project files  
 
 Useful References and Page Links
 [Github Project Board(all files and due dates)](https://github.com/XYIAN/numConverter_groupH/projects/1)
