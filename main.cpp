@@ -40,18 +40,49 @@ void convert_base(char *out, int num, int base)
 	putchar('\n');
 }
 
+//new functions for req 
+
+//convert decimal 
+int convertDecimal(int num){
+    int convertStatus; 
+    cout << "What would you like to convert the decimal " << num << " to?" <<
+    endl<< "(1=Decimal) (2=Binary) (3=Octal) (4=Hexidecimal) (0=exit)::";
+    cin >> convertStatus; 
+    if(convertStatus == 0){
+        return 0;
+    }else if(convertStatus == 1){
+        return num;
+    }
+    return 0; 
+
+}
+
+
 int main()
 {
-	int num;
+	int num, inputType;
 	char buf[65];
-    cout << "What type of number would you like to convert?" <<
-    endl << "  (1=Decimal) (2=Binary) (3=Octal) (4=Hexidecimal)"<<
-    endl; 
+    
     string choice = "Y";
     while(choice == "Y"){
+        cout << "\nWhat type of number would you like to convert?" <<
+        endl << "(1=Decimal) (2=Binary) (3=Octal) (4=Hexidecimal) \n(0=exit) "; 
+        cin >> inputType; 
+
         printf("Enter a number: ");
 	    scanf("%d", &num);
-
+        if(inputType == 0){
+            cout << "You entered 0, exit status" << endl; 
+            break; 
+        }else if(inputType == 1){
+            cout << "You entered 1, decimal status" << endl; 
+        }else if(inputType == 2){
+            cout << "You entered 2, binary status" << endl;
+        }else if(inputType == 3){
+            cout << "You entered 3, octal status" << endl;
+        }else if(inputType == 4){
+            cout << "You entered 4, hexidecimal status" << endl;
+        }
         //convert to dec from dec
         //convert to dec from binary
         //convert to dec from oct
@@ -82,6 +113,7 @@ int main()
         cout << "Convert a new number?(Y/N)" << endl; 
         cin >> choice; 
     }
+    cout << "Program exiting...goodbye!"<<endl; 
 	
 	return 0;
 }
