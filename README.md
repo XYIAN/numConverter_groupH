@@ -1,8 +1,8 @@
 ## Group H Semester Project 
-#[Current Project Status](https://github.com/XYIAN/numConverter_groupH/projects/1)   
+# [Current Project Status](https://github.com/XYIAN/numConverter_groupH/projects/1)   
 group H repo for **all** semester project files   
 
-###Useful References and Page Links
+### Useful References and Page Links
 -[Github Project Board(all files and due dates)](https://github.com/XYIAN/numConverter_groupH/projects/1)  
 *please update project board as assignments & milestones are completed  
 *project board contains all links below + details   
