@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2020-11-18T01:39:08.850Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36" etag="_AkM75OTvNc8l4zClSy9" version="13.9.9" type="github">
+<mxfile host="app.diagrams.net" modified="2020-11-18T01:41:03.285Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36" etag="DiDDihqi-PsDRCHC3e1p" version="13.9.9" type="github">
   <diagram name="Page-1" id="e7e014a7-5840-1c2e-5031-d8a46d1fe8dd">
     <mxGraphModel dx="1171" dy="643" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" background="#283618" math="0" shadow="0">
       <root>
@@ -162,25 +162,25 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="_OB9mGQ97apT48qR6tUE-121" value="Convert Decimal to Decimal" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#1818BC;" vertex="1" parent="1">
+        <mxCell id="_OB9mGQ97apT48qR6tUE-121" value="Convert Decimal to Hex" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#1818BC;" vertex="1" parent="1">
           <mxGeometry x="170" y="368" width="180" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="_OB9mGQ97apT48qR6tUE-122" value="Convert Decimal to Decimal" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#1818BC;" vertex="1" parent="1">
+        <mxCell id="_OB9mGQ97apT48qR6tUE-122" value="Convert Decimal to Octal" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#1818BC;" vertex="1" parent="1">
           <mxGeometry x="170" y="338" width="180" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="_OB9mGQ97apT48qR6tUE-123" value="Convert Decimal to Decimal" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#1818BC;" vertex="1" parent="1">
+        <mxCell id="_OB9mGQ97apT48qR6tUE-123" value="Convert Decimal to Binary" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#1818BC;" vertex="1" parent="1">
           <mxGeometry x="170" y="311" width="180" height="40" as="geometry" />
         </mxCell>
         <mxCell id="_OB9mGQ97apT48qR6tUE-125" value="Convert Decimal to Decimal" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#1818BC;" vertex="1" parent="1">
           <mxGeometry x="170" y="278" width="180" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="_OB9mGQ97apT48qR6tUE-126" value="Convert Binary to Decimal" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#006600;" vertex="1" parent="1">
+        <mxCell id="_OB9mGQ97apT48qR6tUE-126" value="Convert Binary to Hex" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#006600;" vertex="1" parent="1">
           <mxGeometry x="440" y="368" width="180" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="_OB9mGQ97apT48qR6tUE-127" value="Convert Binary to Decimal" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#006600;" vertex="1" parent="1">
+        <mxCell id="_OB9mGQ97apT48qR6tUE-127" value="Convert Binary to Octal" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#006600;" vertex="1" parent="1">
           <mxGeometry x="440" y="338" width="180" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="_OB9mGQ97apT48qR6tUE-128" value="Convert Binary to Decimal" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#006600;" vertex="1" parent="1">
+        <mxCell id="_OB9mGQ97apT48qR6tUE-128" value="Convert Binary to Binary" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#006600;" vertex="1" parent="1">
           <mxGeometry x="440" y="311" width="180" height="40" as="geometry" />
         </mxCell>
         <mxCell id="_OB9mGQ97apT48qR6tUE-129" value="Convert Binary to Decimal" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#006600;" vertex="1" parent="1">
@@ -198,16 +198,16 @@
         <mxCell id="_OB9mGQ97apT48qR6tUE-133" value="Convert Binary to Decimal" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#006600;" vertex="1" parent="1">
           <mxGeometry x="960" y="270" width="180" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="_OB9mGQ97apT48qR6tUE-134" value="Convert Binary to Decimal" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#67AB9F;" vertex="1" parent="1">
+        <mxCell id="_OB9mGQ97apT48qR6tUE-134" value="Convert Octal to Hex" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#67AB9F;" vertex="1" parent="1">
           <mxGeometry x="700" y="360" width="180" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="_OB9mGQ97apT48qR6tUE-135" value="Convert Binary to Decimal" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#67AB9F;" vertex="1" parent="1">
+        <mxCell id="_OB9mGQ97apT48qR6tUE-135" value="Convert Octal to Octal&amp;nbsp;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#67AB9F;" vertex="1" parent="1">
           <mxGeometry x="700" y="330" width="180" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="_OB9mGQ97apT48qR6tUE-136" value="Convert Binary to Decimal" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#67AB9F;" vertex="1" parent="1">
+        <mxCell id="_OB9mGQ97apT48qR6tUE-136" value="Convert Octal to binary" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#67AB9F;" vertex="1" parent="1">
           <mxGeometry x="700" y="303" width="180" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="_OB9mGQ97apT48qR6tUE-137" value="Convert Binary to Decimal" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#67AB9F;" vertex="1" parent="1">
+        <mxCell id="_OB9mGQ97apT48qR6tUE-137" value="Convert Octal to Decimal" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=1;sketch=0;strokeColor=#DDA15E;fontColor=#FAFAFA;fillColor=#67AB9F;" vertex="1" parent="1">
           <mxGeometry x="700" y="270" width="180" height="40" as="geometry" />
         </mxCell>
       </root>
