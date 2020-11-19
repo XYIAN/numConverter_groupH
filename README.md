@@ -7,7 +7,7 @@ this is a repo for **all** GROUP H semester project files and links.
 *please update project board as assignments & milestones are completed  
 *project board contains all links below + details   
 - [ ] [C++ Prototype code](https://github.com/XYIAN/numConverter_groupH/blob/master/main.cpp)  
-- [ ] [C Prototype code pt.2 11/18](https://github.com/XYIAN/numConverter_groupH/blob/master/numConverter_c)
+- [ ] [C Prototype code Isaac's pt.2 11/18](https://github.com/XYIAN/numConverter_groupH/blob/master/numConverter_c)
 - [ ] [Block Diagram drawIO(open with www.draw.io->open from existing github)](https://github.com/XYIAN/numConverter_groupH/blob/master/BlockDiagram.drawi)  
 - [ ] [Mips Code](https://github.com/XYIAN/numConverter_groupH/blob/master/number_converter.asm)   
 - [x] [Project Inception / Design Document](https://docs.google.com/document/d/16p1Qrxc3XLgVbYR4pAPWAa37GxGlq-BZcojlDWp8RvU/edit?usp=sharing)  
