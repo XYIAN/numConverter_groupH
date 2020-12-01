@@ -187,6 +187,8 @@ int main()
 {
 	char input_buf[128];
 	char output_buf[128];
+    char choice = 'Y';
+    while(choice == 'Y'){
 	int inputBase = -1;
 	int outputBase = -1;
 	
@@ -226,6 +228,13 @@ ask_input_base:
 			binaryTo(output_buf, tmp, outputBase);
 		}
 
-		cout << "Output: " << output_buf << "\n\n";	
+		cout << "Output: " << output_buf << "\n\nWould you like to convert to a new base?(Y/N)";
+        char breakMe = 'N';
+        cin >> breakMe ;
+        if(breakMe == 'N'){break;} 	
+
 	}
+    cout << "Would you like to enter another number?(Y/N)" ;
+    cin >> choice;  
+    }//end outer number loop
 }
