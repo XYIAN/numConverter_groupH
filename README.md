@@ -1,5 +1,6 @@
 ## Group H Semester Project 
-# [Current Project Status --->/!\CLICK ME/!\\<---](https://github.com/XYIAN/numConverter_groupH/projects/1)   
+# [Current Project Status --->/!\CLICK ME/!\\<---](https://github.com/XYIAN/numConverter_groupH/projects/1) 
+# [MIPS CODE DUE DEC 6](https://github.com/XYIAN/numConverter_groupH/blob/master/number_converter.asm)
 This is a repo for **all** GROUP H semester project files and links.    
 
 ## Google Drive Links -SUBMISSION DOCUMENTS- 
