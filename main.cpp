@@ -192,7 +192,7 @@ int main()
 	int inputBase = -1;
 	int outputBase = -1;
 	
-	cout << "Welcome to the base converter!\n\nEnter a number: ";
+	cout <<endl<< "Group H - CST237" <<endl<<"Welcome to the base converter!\n\nEnter a number: ";
 	cin >> input_buf;
 
 ask_input_base:
@@ -208,7 +208,7 @@ ask_input_base:
 	}
 	while(1)
 	{
-		cout << "Enter the desired output base (2, 8, 10, or 16) or negative number to exit: ";
+		cout <<endl<< "Enter the desired output base (2, 8, 10, or 16) or negative number to exit: ";
 		cin >> outputBase;
 		if (outputBase < 0) break;
 		if (!base_valid(outputBase))
@@ -232,9 +232,9 @@ ask_input_base:
         char breakMe = 'N';
         cin >> breakMe ;
         if(breakMe == 'N'){break;} 	
-
+        
 	}
-    cout << "Would you like to enter another number?(Y/N)" ;
+    cout <<endl<< "Would you like to enter another number?(Y/N)" ;
     cin >> choice;  
     }//end outer number loop
 }
