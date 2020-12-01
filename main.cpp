@@ -188,11 +188,11 @@ int main()
 	char input_buf[128];
 	char output_buf[128];
     char choice = 'Y';
-    while(choice == 'Y'){
+    while(choice == 'Y'){//loop added to convert multiple numbers 
 	int inputBase = -1;
 	int outputBase = -1;
 	
-	cout <<endl<< "Group H - CST237" <<endl<<"Welcome to the base converter!\n\nEnter a number: ";
+	cout <<endl<< "     Group H - CST237" <<endl<<"Welcome to the base converter!\n\nEnter a number: ";
 	cin >> input_buf;
 
 ask_input_base:
@@ -237,4 +237,5 @@ ask_input_base:
     cout <<endl<< "Would you like to enter another number?(Y/N)" ;
     cin >> choice;  
     }//end outer number loop
+    cout <<endl<< "No further conversions requested..\n      Now Exiting, Goodbye! :) "<<endl;
 }
