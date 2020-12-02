@@ -57,7 +57,7 @@ void decimalTo(char *out, float dec, int base)
 	int sign = (dec >= 0) * 2 - 1;
 	char* pos = out;
 
-	if (dec < 0)
+	if (sign < 0)
 	{
 		*pos = '-';
 		pos++;
@@ -65,6 +65,7 @@ void decimalTo(char *out, float dec, int base)
 	// this is to force it to be positive for ease of calculation
 	dec *= sign;
 	int dec_spaces = 0;
+
 	while (dec - (int)dec > 0)
 	{
 		dec *= base;
@@ -105,6 +106,7 @@ float toDecimal(const char *input, int base)
 	int len = cstr_len(input);
 	const char *pos = input;
 	int sign = (*pos != '-') * 2 - 1;
+	
 	if (sign < 0)
 	{
 		pos++;
@@ -128,9 +130,10 @@ float toDecimal(const char *input, int base)
 		pos++;
 	}
 
-	output /= to_exp(base, dec_spaces);
-
+	offset = to_exp(base, dec_spaces);
+	output /= offset;
 	output *= sign;
+
 	return output;
 }
 // base should never be anything other than 8 or 16
