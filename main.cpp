@@ -54,47 +54,46 @@ void decimalTo(char *out, float dec, int base)
 		return;
 	}
 
-	int sign = (dec > 0) * 2 - 1;
-
+	int sign = (dec >= 0) * 2 - 1;
 	char* pos = out;
+
 	if (dec < 0)
 	{
 		*pos = '-';
 		pos++;
 	}
-	// this is to assure that it is a positive number
+	// this is to force it to be positive for ease of calculation
 	dec *= sign;
-
-	unsigned upper;
-	upper = dec;
-	dec -= (float)upper;
-	int len = 0;
-	unsigned ut = upper;
-
-	while (ut > 0)
+	int dec_spaces = 0;
+	while (dec - (int)dec > 0)
 	{
-		ut /= base;
+		dec *= base;
+		dec_spaces++;
+	}
+
+	unsigned val = dec;
+	int len = 0;
+	while (val > 0)
+	{
+		val /= base;
 		len++;
 	}
 
-	int offs = to_exp(base, len - 1);
+	int offset = to_exp(base, len - 1);
+	val = dec;
 	while (len > 0)
 	{
-		*pos++ = conv_vals[(upper / offs) %base];
-		offs /= base;
+		if (len == dec_spaces)
+		{
+			*pos = '.';
+			pos++;
+		}
+		*pos = conv_vals[(val / offset) % base];
+		offset /= base;
+		pos++;
 		len--;
 	}
 
-	if (dec > 0)
-	{
-		*pos++ = '.';
-		while(dec - (int)dec > 0)
-		{
-			char c = conv_vals[(int)((dec - (int)dec) * base)];
-			*pos++ = c;
-			dec *= base;
-		}
-	}
 	*pos = 0;
 }
 
@@ -128,6 +127,7 @@ float toDecimal(const char *input, int base)
 		}
 		pos++;
 	}
+
 	output /= to_exp(base, dec_spaces);
 
 	output *= sign;
