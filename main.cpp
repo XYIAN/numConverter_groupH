@@ -112,30 +112,24 @@ float toDecimal(const char *input, int base)
 		len--;
 	}
 	// looping through string till end
+	int offset = to_exp(base, len - 1);
 	while (*pos)
 	{
 		if (*pos == '.')
 		{
-			dec_spaces = len - 1;
-			output /= to_exp(base, len);
-			break;
+			dec_spaces = len;
 		}
-			// adding value of char to output value
-		float val = get_val(*pos);
-
-		output += val * to_exp(base, len - 1);
-
-		len--;
+		else
+		{
+			float val = get_val(*pos);
+			output += val * offset;
+			offset /= base;
+			len--;
+		}
 		pos++;
 	}
-	int cnt = 0;
-	while (cnt  != dec_spaces)
-	{
-		pos++;
-		cnt++;
-		float val = get_val(*pos);
-		output += (float)val / to_exp(base, cnt);
-	}
+	output /= to_exp(base, dec_spaces);
+
 	output *= sign;
 	return output;
 }
@@ -250,7 +244,7 @@ int main()
 
 	cout << "Welcome to the base converter!\n\n";
 	char choice = 'y';
-	
+
 	while(choice == 'Y' || choice == 'y')
 	{
 		cout << "Enter a number: ";
