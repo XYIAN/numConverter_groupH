@@ -47,8 +47,6 @@ int to_exp(int base, int exp)
 
 void decimalTo(char *out, float dec, int base)
 {
-	std::cout << "DEC: " << dec << std::endl;
-	dec = 11100042.756;
 	if (dec == 0.0)
 	{
 		out[0] = '0';
@@ -103,40 +101,37 @@ void decimalTo(char *out, float dec, int base)
 //General to Decimal
 float toDecimal(const char *input, int base)
 {
-	int dec_spaces = 0;
 	float output = 0;
-	int len = cstr_len(input);
+	int len = 0;
 	const char *pos = input;
 	int sign = (*pos != '-') * 2 - 1;
 
 	if (sign < 0)
 	{
 		pos++;
-		len--;
 	}
+
+	const char* p = pos;
+	while (*p != 0 && *p != '.')
+	{
+		len++;
+		p++;
+	}
+
 	// looping through string till end
-	int offset = to_exp(base, len - 1);
+	float offset = to_exp(base, len - 1);
 	while (*pos)
 	{
-		if (*pos == '.')
-		{
-			dec_spaces = len;
-		}
-		else
+		if (*pos != '.')
 		{
 			float val = get_val(*pos);
 			output += val * offset;
 			offset /= base;
-			len--;
 		}
 		pos++;
 	}
-	std::cout << "Ot: " << output << std::endl;
 
-	offset = to_exp(base, dec_spaces);
-	output /= offset;
 	output *= sign;
-
 	return output;
 }
 

@@ -505,21 +505,16 @@ to_decimal:
 	sw $s2,		12($sp)	# len: length of input_buf
 	sw $s3,		8($sp)	# pos: address of current char
 	sw $s4,		4($sp)	# sign: sign of input/output value
-	sw $s5,		0($sp)	# offset: used for indexing string
+	s.s $f21,	0($sp)	# offset: used for indexing string
 
 	# int base = arg0;
 	move $s0, $a0
 
-	# int dec_spaces = 0;
-	li $s1, 0
-
 	# float output = 0;
 	mtc1 $zero, $f20
 
-	# len = strlen(input);
-	la $a0, input_buf
-	jal strlen
-	move $s2, $v0
+	# len = 0;
+	li $s2, 0
 
 	# const char* pos = input;
 	la $s3, input_buf
@@ -537,70 +532,74 @@ to_decimal_is_zero:
 
 	# if (sign < 0)
 	bgez $s4, to_decimal_sign_gez
-	# pos++;
-	addiu $s3, $s3, 1
-	# len--;
-	sub $s2, $s2, 1
-to_decimal_sign_gez:
 
-	# int offset = to_exp(base, len - 1);
+		# pos++;
+		addiu $s3, $s3, 1
+	
+	to_decimal_sign_gez:
+
+	#const char* p = pos;
+	move $t0, $s3
+
+	# while()
+	to_decimal_while_p:
+
+		lb $t1, ($t0)
+		blez $t1, to_decimal_while_p_break
+		beq $t1, '.', to_decimal_while_p_break
+
+		# len++;
+		addi $s2, $s2, 1
+
+		# p++;
+		addiu $t0, $t0, 1
+
+		j to_decimal_while_p
+
+	to_decimal_while_p_break:
+
+
+	# float offset = to_exp(base, len - 1);
 	move $a0, $s0
 	move $a1, $s2
 	sub $a1, $a1, 1
 	jal to_exp
-	move $s5, $v0
+	mtc1 $v0, $f4
+	cvt.s.w $f21, $f4
 
 	#while (*pos)
 	to_decimal_while_pos:
 		lb $t0, ($s3)
 		beqz $t0, to_decimal_while_pos_break
 
-		# if (*pos == '.')
-		bne $t0, '.', to_decimal_while_if_pid_else
-		# dec_spaces = len;
-		move $s1, $s2
-		j to_decimal_while_pid_endif
-
-		# else
-	to_decimal_while_if_pid_else:
+		# if (*pos != '.')
+		beq $t0, '.', to_decimal_while_pid_endif
 		
-		# float val = get_val(*pos);
-		lb $a0, ($s3)
-		jal get_val
-		mtc1 $v0, $f4
-		cvt.s.w $f4, $f4
+			# float val = get_val(*pos);
+			lb $a0, ($s3)
+			jal get_val
+			mtc1 $v0, $f4
+			cvt.s.w $f4, $f4
 
-		# output += val * offset;
-		mtc1 $s5, $f5
-		cvt.s.w $f5, $f5
-		mul.s $f4, $f4, $f5
-		add.s $f20, $f20, $f4
+			# output += val * offset;
+			mul.s $f4, $f4, $f21
+			add.s $f20, $f20, $f4
 
-		# offset /= base;
-		div $s5, $s0
-		mflo $s5
+			# offset /= base;
+			mtc1 $s0, $f4
+			cvt.s.w $f4, $f4
+			div.s $f21, $f21, $f4
 
-		# len--;
-		sub $s2, $s2, 1
+			# len--;
+			sub $s2, $s2, 1
 
-	to_decimal_while_pid_endif:
+		to_decimal_while_pid_endif:
 
 		# pos++
 		addi $s3, $s3, 1
 		j to_decimal_while_pos
 
-to_decimal_while_pos_break:
-
-	#offset = to_exp(base, dec_spaces);
-	move $a0, $s0
-	move $a1, $s1
-	jal to_exp
-	move $s5, $v0
-
-	#output /= offset;
-	mtc1 $s5, $f4
-	cvt.s.w $f4, $f4
-	div.s $f20, $f20, $f4
+	to_decimal_while_pos_break:
 
 	#output *= sign;
 	mtc1 $s4, $f4
@@ -618,7 +617,7 @@ to_decimal_while_pos_break:
 	lw $s2,		12($sp)
 	lw $s3,		8($sp)
 	lw $s4,		4($sp)
-	lw $s5,		0($sp)
+	s.s $f21,	0($sp)
 	addiu $sp, $sp, 32
 	jr $ra
 
