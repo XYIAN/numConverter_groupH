@@ -106,7 +106,7 @@ float toDecimal(const char *input, int base)
 	int len = cstr_len(input);
 	const char *pos = input;
 	int sign = (*pos != '-') * 2 - 1;
-	
+
 	if (sign < 0)
 	{
 		pos++;
@@ -136,103 +136,169 @@ float toDecimal(const char *input, int base)
 
 	return output;
 }
-// base should never be anything other than 8 or 16
+
 void binaryTo(char *out, const char *in, int base)
 {
-	// getting length of input string
-	int bitsPerDigit = 1;
+	// persistent vars: opos, in, base, ipos
+	int bpd = 1;
 	// janky optimized code that relies on jump table fallthrough so it will be easy to write in mips
 	switch (base)
 	{
 	case 16:
-		bitsPerDigit++;
+		bpd++;
 	case 8:
-		bitsPerDigit += 2;
+		bpd += 2;
 	}
 
-	bool is_neg = false;
-	if (in[0] == '-')
+	char tmp[129];
+	char* tpos = tmp;
+	int offset = 0;
+
+	const char* ipos = in;
+	char* opos = out;
+
+	if (*ipos == '-')
 	{
-		is_neg = true;
-		out[0] = '-';
-		out++;
-		in++;
+		*opos = '-';
+		opos++;
+		ipos++;
 	}
 
-	// getting length of output string
-	int len = cstr_len(in);
-	int outputLength = len / bitsPerDigit;
-	// if there is a remainder digit, add 1 to output length
-	int mod = len % bitsPerDigit;
-	if (mod > 0) outputLength++;
-	
-	// adding zero to end of string for termination
-	int oi = outputLength;
-	out[oi--] = 0;
-	int val = 0;
-	int counter = 0;
-	// looping through input
-	for (int i = len - 1; i >= 0; i--)
+	const char* p = ipos;
+	int ulen = 0;
+	int llen = 0;
+
+	// getting length before decimal
+	while (*p)
 	{
-		// grouping the bits of the binary string together to find value of char
-		int bbi = counter % bitsPerDigit;
-		val += get_val(in[i]) << bbi;
-		// if loop is finished or finished with most recent group of bits
-		if (bbi == bitsPerDigit - 1 || i == 0)
+		if (*p == '.')
 		{
-			// adding char to string and incrementing
-			out[oi] = conv_vals[val];
-			oi--;
-			val = 0;
+			p++;
+			break;
 		}
-		counter++;
+
+		p++;
+		ulen++;
 	}
-	if (is_neg) out--;
+	// getting length past decimal
+	while (*p)
+	{
+		p++;
+		llen++;
+	}
+
+	offset = bpd - (ulen % bpd);
+	if (offset == bpd) offset = 0;
+	// prepending the tmp array
+	while (offset > 0)
+	{
+		*tpos = '0';
+		tpos++;
+		offset--;
+	}
+
+	while (*ipos)
+	{
+		*tpos = *ipos;
+		tpos++;
+		ipos++;
+	}
+
+	offset = bpd - (llen % bpd);
+	if (offset == bpd) offset = 0;
+
+	while (offset > 0)
+	{
+		*tpos = '0';
+		tpos++;
+		offset--;
+	}
+
+	*tpos = 0;
+
+	tpos = tmp;
+	while (*tpos)
+	{
+		if (*tpos == '.')
+		{
+			*opos = '.';
+			tpos++;
+			opos++;
+		}
+		else
+		{
+			p = tpos + bpd - 1;
+			int mag = 1;
+			int val = 0;
+
+			while (p >= tpos)
+			{
+				val += get_val(*p) * mag;
+				mag *= 2;
+				p--;
+			}
+
+			*opos = conv_vals[val];
+			tpos += bpd;
+			opos++;
+		}
+	}
+	*opos = 0;
 }
+
 void toBinary(char *out, const char *in, int base)
 {
-	int bitsPerDigit = 1;
+	// persistent vars: opos, in, base, ipos
+	int tmp = 1;
 	// janky optimized code that relies on jump table fallthrough so it will be easy to write in mips
 	switch (base)
 	{
 	case 16:
-		bitsPerDigit++;
+		tmp++;
 	case 8:
-		bitsPerDigit += 2;
+		tmp += 2;
 	}
+	base = tmp;
 
-	bool is_neg = false;
-	if (in[0] == '-')
+	const char* ipos = in;
+	char* opos = out;
+
+	if (*ipos == '-')
 	{
-		is_neg = true;
-		out[0] = '-';
-		out++;
-		in++;
+		*opos = '-';
+		opos++;
+		ipos++;
 	}
 
-	int len = cstr_len(in);
-	int outputLength = len * bitsPerDigit;
-	int oi = outputLength;
-	out[oi--] = 0;
-
-	for (const char *c = in + len - 1; c >= in; c--)
+	while (*ipos)
 	{
-		int val = get_val(*c);
-		int count = 0;
-		while (val > 0)
+		if (*ipos == '.')
 		{
-			out[oi] = conv_vals[val % 2];
-			val /= 2;
-			oi--;
-			count++;
+			*opos = *ipos;
+			opos++;
 		}
-		// filling in the extra space
-		for (int i = 0; i < (bitsPerDigit - count); i++)
+		else
 		{
-			out[oi--] = '0';
+			int val = get_val(*ipos);
+			char* p = opos + base - 1;
+
+			while (val > 0)
+			{
+				*p = conv_vals[val % 2];
+				val /= 2;
+				p--;
+			}
+
+			while (p >= opos)
+			{
+				*p = '0';
+				p--;
+			}
+			opos += base;
 		}
+		ipos++;
 	}
-	if (is_neg) out--;
+	*opos = 0;
 }
 
 bool base_valid(int base)
@@ -328,9 +394,8 @@ int main()
 			}
 			else
 			{
-				char tmp[128];
-				toBinary(tmp, input_buf, inputBase);
-				binaryTo(output_buf, tmp, outputBase);
+				toBinary(output_buf, input_buf, inputBase);
+				binaryTo(output_buf, output_buf, outputBase);
 			}
 			cout << "Output: " << output_buf << "\n";
 		}

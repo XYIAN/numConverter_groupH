@@ -9,25 +9,43 @@ enter_prompt:	.asciiz "Enter a number: "
 input_msg:		.asciiz "Input: "
 output_msg:		.asciiz "Output: "
 lmao_str:		.asciiz "LMAO\n"
+char_str:		.asciiz "Char: "
 valcheck_str:	.asciiz "Val: "
 
 .text
 ############################################  MAIN  #######
 main:
+	# printing prompt for input
 	la $a0, enter_prompt
 	jal print_str
 	jal read_str
-	li $a0, 8
+	
+	# calculating float for base 8 input
+	li $a0, 16
 	jal to_decimal
 	mov.s $f20, $f0
 
-	move $s0, $v0
+	# printing output in decimal
 	la $a0, output_msg
-
+	jal print_str
 	mov.s $f12, $f20
 	jal print_float
 	jal endl
 
+	# converting output to decimal string
+	li $a0, 2
+	mov.s $f12, $f20
+	jal decimal_to
+
+	# printing output
+	la $a0, output_msg
+	jal print_str
+	jal print_str
+	la $a0, output_buf
+	jal print_str
+	jal endl
+
+	# exiting
 	j exit
 ############################################  EXIT  #######
 
@@ -151,11 +169,11 @@ to_exp_return:
 
 valcheck:
 	# $a0: integer to print the value of
-	move $t0, $a0
+	move $t9, $a0
 	la $a0, valcheck_str
 	li $v0, 4
 	syscall
-	move $a0, $t0
+	move $a0, $t9
 	li $v0, 1
 	syscall
 	la $a0, newline
@@ -198,20 +216,11 @@ endl:
 
 #########################################################################
 #																		#
-#						  CONVERSION FUNCTIONS							#
+#						  		TO_DECIMAL								#
 #																		#
 #########################################################################
 
-############################################  TO_DECIMAL  ##
 to_decimal:
-	# $s0 <- $a0: base: base converting from
-	# $s1: dec_spaces: decimal spaces of input
-	# $s2: len: length of input_buf
-	# $s3: pos: address of current char
-	# $s4: sign: sign of input/output value
-	# $s5: val: value of char
-	# $f0: output: return value
-
 	# storing data on stack
 	subu $sp, $sp, 32
 	sw $ra,		28($sp)	# return address
@@ -338,30 +347,319 @@ to_decimal_while_pos_break:
 	addiu $sp, $sp, 32
 	jr $ra
 
-############################################  DECIMAL_TO  ##
+#########################################################################
+#																		#
+#							  DECIMAL_TO								#
+#																		#
+#########################################################################
+
 decimal_to:
 	# $a0: base of conversion
+	# $f12: number to convert
+	subu $sp, $sp, 32
+	sw $ra,		28($sp)	# return address
+	s.s $f20,	24($sp)	# dec
+	sw $s0,		20($sp)	# base
+	sw $s1,		16($sp)	# dec_spaces
+	sw $s2,		12($sp)	# len
+	sw $s3,		8($sp)	# pos
+	sw $s4,		4($sp)	# sign
+	sw $s5,		0($sp)	# offset
 
-	sub $sp, $sp, 4
-	sw $ra, ($sp)
-	lw $ra, ($sp)
-	addiu $sp, $sp, 4
+	# initializing variables
+	move $s0, $a0
+	mov.s $f20, $f12
+
+	#if (dec == 0.0)
+	mtc1 $zero, $f4
+	c.eq.s $f20, $f4
+	bc1f decimal_to_dec_nez
+	la $t0, output_buf
+
+	#	out[0] = '0';
+	li $t1, '0'
+	sb $t1, 0($t0)
+
+	#	out[1] = 0;
+	li $t1, 0
+	sb $t1, 1($t0)
+
+	# return;
+	j decimal_to_return
+
+decimal_to_dec_nez:
+
+	#int sign = (dec >= 0) * 2 - 1;
+	mtc1 $zero, $f4
+	c.le.s $f4, $f20
+	li $s4, 0
+	bc1t decimal_to_dec_gez
+	j decimal_to_sign_calc
+
+	decimal_to_dec_gez:
+
+		li $s4, 1
+
+	decimal_to_sign_calc:
+
+	sll $s4, $s4, 1
+	sub $s4, $s4, 1
+
+	#char* pos = out;
+	la $s3, output_buf
+
+	#if (sign < 0)
+	bgez $s4, decimal_to_sign_nltz
+	
+		# *pos = '-';
+		li $t0, '-'
+		sb $t0, ($s3)
+
+		#	pos++;
+		addi $s3, $s3, 1
+
+	decimal_to_sign_nltz:
+
+	# dec *= sign;
+	mtc1 $s4, $f4
+	cvt.s.w $f4, $f4
+	mul.s $f20, $f20, $f4
+
+	# int dec_spaces = 0;
+	li $s1, 0
+
+	# while (dec - (int)dec > 0)
+	decimal_to_while_dmugz:
+
+		cvt.w.s $f4, $f20
+		cvt.s.w $f4, $f4
+	
+		sub.s $f4, $f20, $f4
+		mtc1 $zero, $f5
+		c.le.s $f4, $f5
+		bc1t decimal_to_while_dmugz_break
+
+		# dec *= base;
+		mtc1 $s0, $f4
+		cvt.s.w $f4, $f4
+		mul.s $f20, $f20, $f4
+
+		# dec_spaces++;
+		addi $s1, $s1, 1
+
+		j decimal_to_while_dmugz
+
+	decimal_to_while_dmugz_break:
+
+	# unsigned val = dec;
+	cvt.w.s $f4, $f20
+	mfc1 $t0, $f4
+
+	#int len = 0;
+	li $s2, 0
+
+	#while (val > 0)
+	decimal_to_while_val_gz:
+
+		blez $t0, decimal_to_while_val_gz_break
+
+		# val /= base;
+		div $t0, $s0
+		mflo $t0
+
+		# len++;
+		addi $s2, $s2, 1
+
+		j decimal_to_while_val_gz
+
+	decimal_to_while_val_gz_break:
+
+	# int offset = to_exp(base, len - 1);
+	move $a0, $s0
+	sub $a1, $s2, 1
+	jal to_exp
+	move $s5, $v0
+
+	# val = dec;
+	cvt.w.s $f4, $f20
+	mfc1 $t0, $f4
+
+	# while (len > 0)
+	decimal_to_while_len_gz:
+
+		blez $s2, decimal_to_while_len_gz_break
+
+		# if (len == dec_spaces)
+		bne $s2, $s1, decimal_to_wlgz_endif
+
+			# *pos = '.';
+			li $t1, '.'
+			sb $t1, ($s3)
+
+			# pos++;
+			addiu $s3, $s3, 1
+
+		decimal_to_wlgz_endif:
+		
+		# *pos = conv_vals[(val / offset) % base];
+		div $t0, $s5
+		mflo $t1
+		div $t1, $s0
+		mfhi $t1
+		la $t2, conv_vals
+		addu $t1, $t2, $t1
+		lb $t1, ($t1)
+		sb $t1, ($s3)
+
+		# offset /= base;
+		div $s5, $s0
+		mflo $s5
+
+		# pos++;
+		addiu $s3, $s3, 1
+
+		# len--;
+		sub $s2, $s2, 1
+
+		j decimal_to_while_len_gz
+
+	decimal_to_while_len_gz_break:
+
+	# *pos = 0;
+	li $t0, 0
+	sb $t0, ($s3)
+
+decimal_to_return:
+
+	lw $ra,		28($sp)	# return address
+	l.s $f20,	24($sp)	# dec
+	lw $s0,		20($sp)	# base
+	lw $s1,		16($sp)	# dec_spaces
+	lw $s2,		12($sp)	# len
+	lw $s3,		8($sp)	# pos
+	lw $s4,		4($sp)	# sign
+	lw $s5,		0($sp)	# offset
+	addiu $sp, $sp, 32
 	jr $ra
 
-############################################  TO_BINARY  ###
+#########################################################################
+#																		#
+#							  TO_BINARY									#
+#																		#
+#########################################################################
+
 to_binary:
 	# $a0: base of conversion
 	# $a1: address of temp buffer
+	# vars: outpos, base, bitsPerDigit, is_neg, len, oi, val, counter
+	subu $sp, $sp, 32
+	sw $ra,		($sp)
+	#int bitsPerDigit = 1;
+	#switch (base)
+	#{
+	#case 16:
+	#	bitsPerDigit++;
+	#case 8:
+	#	bitsPerDigit += 2;
+	#}
+
+	#bool is_neg = false;
+	#if (in[0] == '-')
+	#{
+	#	is_neg = true;
+	#	out[0] = '-';
+	#	out++;
+	#	in++;
+	#}
+
+	#int len = cstr_len(in);
+	#int outputLength = len * bitsPerDigit;
+	#int oi = outputLength;
+	#out[oi--] = 0;
+
+	#for (const char *c = in + len - 1; c >= in; c--)
+	#{
+	#	int val = get_val(*c);
+	#	int count = 0;
+	#	while (val > 0)
+	#	{
+	#		out[oi] = conv_vals[val % 2];
+	#		val /= 2;
+	#		oi--;
+	#		count++;
+	#	}
+	#	for (int i = 0; i < (bitsPerDigit - count); i++)
+	#	{
+	#		out[oi--] = '0';
+	#	}
+	#}
+	#if (is_neg) out--;
+
 	sub $sp, $sp, 4
 	sw $ra, ($sp)
 	lw $ra, ($sp)
 	addiu $sp, $sp, 4
 	jr $ra
 
-############################################  BINARY_TO  ###
+#########################################################################
+#																		#
+#							  BINARY_TO									#
+#																		#
+#########################################################################
+
 binary_to:
 	# $a0: base of conversion
 	# $a1: address of temp buffer
+
+	# int bitsPerDigit = 1;
+	# // janky optimized code that relies on jump table fallthrough so it will be easy to write in mips
+	# switch (base)
+	# {
+	# case 16:
+	# 	bitsPerDigit++;
+	# case 8:
+	# 	bitsPerDigit += 2;
+	# }
+
+	# bool is_neg = false;
+	# if (in[0] == '-')
+	# {
+	# 	is_neg = true;
+	# 	out[0] = '-';
+	# 	out++;
+	# 	in++;
+	# }
+
+	# // getting length of output string
+	# int len = cstr_len(in);
+	# int outputLength = len / bitsPerDigit;
+	# // if there is a remainder digit, add 1 to output length
+	# int mod = len % bitsPerDigit;
+	# if (mod > 0) outputLength++;
+	
+	# // adding zero to end of string for termination
+	# int oi = outputLength;
+	# out[oi--] = 0;
+	# int val = 0;
+	# int counter = 0;
+	# // looping through input
+	# for (int i = len - 1; i >= 0; i--)
+	# {
+	# 	// grouping the bits of the binary string together to find value of char
+	# 	int bbi = counter % bitsPerDigit;
+	# 	val += get_val(in[i]) << bbi;
+	# 	// if loop is finished or finished with most recent group of bits
+	# 	if (bbi == bitsPerDigit - 1 || i == 0)
+	# 	{
+	# 		// adding char to string and incrementing
+	# 		out[oi] = conv_vals[val];
+	# 		oi--;
+	# 		val = 0;
+	# 	}
+	# 	counter++;
+	# }
+	# if (is_neg) out--;
+
 	sub $sp, $sp, 4
 	sw $ra, ($sp)
 	lw $ra, ($sp)
