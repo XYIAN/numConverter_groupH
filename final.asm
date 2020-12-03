@@ -91,8 +91,6 @@ main:
 			lb $t0, ($s3)
 			blez $t0, main_while_pos_nez_break
 
-			#jal lmao
-
 			# if (input_buf[i] == '.')
 			bne $t0, '.', main_if_pos_ed_endif
 
@@ -152,8 +150,6 @@ main:
 			j main_while_pos_nez
 
 		main_while_pos_nez_break:
-
-		jal lmao
 
 		# if (!valid_input)
 		bgtz $s5, main_if_not_valid_input_endif
@@ -1182,8 +1178,6 @@ binary_to_offset_neq_bpd2:
 
 		lb $t4, ($s2)
 		blez $t4, binary_to_while_tpos_gtz_break
-
-		#jal lmao
 
 		# if (*tpos == '.')
 		bne $t4, '.', binary_to_if_tpos_ed_else
