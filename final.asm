@@ -1,3 +1,10 @@
+###########################################################################
+#-->Group H (Kyle Dilbeck, Isaac Hirzel, Jennifer S Lopez, Nicole Webber)##
+#-->CST237 - Class Project - Number/Base Converter#########################
+#--> 3 December 2020 ######################################################
+#-->
+###########################################################################
+
 .data
 input_buf:	.space 129
 output_buf:	.space 129
@@ -5,7 +12,7 @@ output_buf:	.space 129
 conv_vals:		.asciiz "0123456789ABCDEF"
 
 output_msg:		.asciiz "Output: "
-welcome_msg:	.asciiz "Welcome to the base converter!\n\n"
+welcome_msg:	.asciiz "-->Group H Class Project<--\n-->Welcome to the base converter!\n\n"
 
 enter_prompt:	.asciiz "Enter a number: "
 ibase_prompt:	.asciiz "Enter the base of the input (2, 8, 10, or 16): "
