@@ -17,7 +17,7 @@ bad_base_err:	.asciiz "Invalid base!\n\n"
 low_base_err:	.asciiz "Input contains digits of a higher base than specified!\n\n"
 
 
-newline:	.asciiz "\n"
+newline:		.asciiz "\n"
 input_msg:		.asciiz "Input: "
 lmao_str:		.asciiz "LMAO\n"
 char_str:		.asciiz "Char: "
@@ -60,9 +60,15 @@ main:
 		la $a0, enter_prompt
 		jal print_str
 
+	main_get_input_buf:
 		# cin >> input_buf;
 		jal read_str
 		jal endl
+
+		# checking string length
+		la $a0, input_buf
+		jal strlen
+		beqz $v0, main_get_input_buf
 
 		# int len = cstr_len(input_buf);
 		la $s3, input_buf
@@ -565,6 +571,7 @@ to_decimal_is_zero:
 
 	#while (*pos)
 	to_decimal_while_pos:
+
 		lb $t0, ($s3)
 		beqz $t0, to_decimal_while_pos_break
 
