@@ -47,6 +47,8 @@ int to_exp(int base, int exp)
 
 void decimalTo(char *out, float dec, int base)
 {
+	std::cout << "DEC: " << dec << std::endl;
+	dec = 11100042.756;
 	if (dec == 0.0)
 	{
 		out[0] = '0';
@@ -129,6 +131,7 @@ float toDecimal(const char *input, int base)
 		}
 		pos++;
 	}
+	std::cout << "Ot: " << output << std::endl;
 
 	offset = to_exp(base, dec_spaces);
 	output /= offset;
@@ -248,7 +251,7 @@ void binaryTo(char *out, const char *in, int base)
 
 void toBinary(char *out, const char *in, int base)
 {
-	// persistent vars: opos, in, base, ipos
+	// persistent vars: opos, base, ipos
 	int tmp = 1;
 	// janky optimized code that relies on jump table fallthrough so it will be easy to write in mips
 	switch (base)
